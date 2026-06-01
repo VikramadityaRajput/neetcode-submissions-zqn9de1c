@@ -1,28 +1,27 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         res = []
-        product = 1
-        count = 0
+        prod = 1
+        HasZero = False
+        HasTwoZero = False
         for num in nums:
+            if HasZero and num == 0:
+                HasTwoZero = True
             if num == 0:
-                count += 1
-        for num in nums:
-            if num != 0:
-                product *= num
-        if count > 1:
-            for num in nums:
+                HasZero = True
+            else: prod = prod * num
+        if HasTwoZero:
+            for i in range(len(nums)):
                 res.append(0)
             return res
-        elif 0 in nums:
+        elif HasZero: 
             for num in nums:
-                if num != 0:
-                    res.append(0)
+                if num == 0:
+                    res.append(prod)
                 else:
-                    res.append(product)
+                    res.append(0)
             return res
-        for num in nums:
-            add = int(product / num)
-            res.append(add)
-        return res
-
-            
+        else:
+            for num in nums:
+                res.append(int(prod/num))
+            return res
